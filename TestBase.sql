@@ -16,36 +16,39 @@
 CREATE DATABASE IF NOT EXISTS `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `test`;
 
--- Dumping structure for table test.asiakastiedot
-CREATE TABLE IF NOT EXISTS `asiakastiedot` (
-  `AsiakasID` int(20) NOT NULL,
-  `HuoneistoID` int(2) NOT NULL,
-  `Etunimi` varchar(50) DEFAULT NULL,
-  `Sukunimi` varchar(50) DEFAULT NULL,
-  `Puh. Nro.` varchar(50) DEFAULT NULL,
-  `S.posti` varchar(50) DEFAULT NULL,
-  `Pvm` date NOT NULL,
-  PRIMARY KEY (`AsiakasID`)
+-- Dumping structure for table test.clientinfo
+CREATE TABLE IF NOT EXISTS `clientinfo` (
+  `ClientID` int(20) NOT NULL,
+  `RoomID` int(2) NOT NULL,
+  `FirstName` varchar(50) DEFAULT NULL,
+  `Surname` varchar(50) DEFAULT NULL,
+  `Telephone` varchar(50) DEFAULT NULL,
+  `Email` varchar(50) DEFAULT NULL,
+  `Date` date NOT NULL,
+  PRIMARY KEY (`ClientID`),
+  KEY `RoomID` (`RoomID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.asiakastiedot: ~0 rows (approximately)
-/*!40000 ALTER TABLE `asiakastiedot` DISABLE KEYS */;
-/*!40000 ALTER TABLE `asiakastiedot` ENABLE KEYS */;
+-- Dumping data for table test.clientinfo: ~0 rows (approximately)
+/*!40000 ALTER TABLE `clientinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `clientinfo` ENABLE KEYS */;
 
--- Dumping structure for table test.palaute
-CREATE TABLE IF NOT EXISTS `palaute` (
-  `AsiakasID` int(20) NOT NULL,
-  `HuoneistoID` int(2) NOT NULL,
-  `Palautetyyppi` varchar(20),
-  `Suosittelu` varchar(5),
-  `Avoin` varchar(5000) DEFAULT NULL,
-  PRIMARY KEY (`AsiakasID`),
-  CONSTRAINT `FK1asiakastiedot` FOREIGN KEY (`AsiakasID`) REFERENCES `asiakastiedot` (`AsiakasID`)
+-- Dumping structure for table test.feedback
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `ClientID` int(20) NOT NULL,
+  `RoomID` int(2) NOT NULL,
+  `FeedbackType` varchar(20) DEFAULT NULL,
+  `Recommend` varchar(5) DEFAULT NULL,
+  `OpenFeedback` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`ClientID`),
+  KEY `RoomID` (`RoomID`),
+  CONSTRAINT `FK_palaute_asiakastiedot` FOREIGN KEY (`ClientID`) REFERENCES `clientinfo` (`ClientID`),
+  CONSTRAINT `FK_palaute_asiakastiedot_2` FOREIGN KEY (`RoomID`) REFERENCES `clientinfo` (`RoomID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table test.palaute: ~0 rows (approximately)
-/*!40000 ALTER TABLE `palaute` DISABLE KEYS */;
-/*!40000 ALTER TABLE `palaute` ENABLE KEYS */;
+-- Dumping data for table test.feedback: ~0 rows (approximately)
+/*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
+/*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
